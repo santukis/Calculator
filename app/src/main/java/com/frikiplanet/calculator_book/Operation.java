@@ -2,11 +2,11 @@ package com.frikiplanet.calculator_book;
 
 public interface Operation {
 
-   double addition(double operand1, double operand2);
+   double addition(double left, double right);
 
-   double subtraction(double operand1, double operand2);
+   double subtraction(double left, double right);
 
-   double multiplication(double operand1, double operand2);
+   double multiplication(double left, double right);
 
    double division(double dividend, double divisor);
 
