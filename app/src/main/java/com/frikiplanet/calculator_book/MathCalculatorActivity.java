@@ -50,7 +50,7 @@ public class MathCalculatorActivity extends AppCompatActivity implements
       removeLastButton = findViewById(R.id.bt_remove_last);
       equalButton = findViewById(R.id.bt_equal);
 
-      buttons = Arrays.asList(findViewById(R.id.bt_parenthesis_start), findViewById(R.id.bt_parenthesis_end), findViewById(R.id.bt_parenthesis_end),
+      buttons = Arrays.asList(findViewById(R.id.bt_parenthesis_start), findViewById(R.id.bt_parenthesis_end), findViewById(R.id.bt_parenthesis_end), findViewById(R.id.bt_addition),
               findViewById(R.id.bt_subtraction), findViewById(R.id.bt_multiplication), findViewById(R.id.bt_division), findViewById(R.id.bt_exponentiation),
               findViewById(R.id.bt_square_root), findViewById(R.id.bt_factorial), findViewById(R.id.bt0), findViewById(R.id.bt00), findViewById(R.id.bt1),
               findViewById(R.id.bt2), findViewById(R.id.bt3), findViewById(R.id.bt4), findViewById(R.id.bt5), findViewById(R.id.bt6), findViewById(R.id.bt7),
