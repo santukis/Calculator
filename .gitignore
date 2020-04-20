@@ -1,0 +1,13 @@
+/.idea/
+/app/google-services.json
+/.gradle/
+/gradle/
+/gradlew
+/gradlew.bat
+/local.properties
+/MathCalculatorActivity_robo_script.json
+/CalculatorBook.iml
+/app/libs/
+/app/app.iml
+/app/proguard-rules.pro
+/gradle.properties
