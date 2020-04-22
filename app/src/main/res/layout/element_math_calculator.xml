@@ -130,7 +130,7 @@
             android:id="@+id/bt_square_root"
             android:layout_weight="1"
             style="@style/Button.Operator"
-            android:tag="r"
+            android:tag="r("
             android:text="@string/square_root" />
 
         <Button
@@ -174,7 +174,7 @@
             android:id="@+id/bt_factorial"
             android:layout_weight="1"
             style="@style/Button.Operator"
-            android:tag="f"
+            android:tag="f("
             android:textAllCaps="false"
             android:text="@string/factorial"/>
 

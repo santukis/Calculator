@@ -58,7 +58,7 @@ public class MathExpression implements Expression {
 
       throwsIfSymbolIsInvalid(expression);
 
-      return expression.split("(?<=[fr+x/^])|(?=[-fr+x/^])");
+      return expression.split("(?<=[(fr+x/^])|(?=[-fr+x/^)])");
    }
 
    private void throwsIfSymbolIsInvalid(String expression) throws ExpressionException {

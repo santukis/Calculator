@@ -41,6 +41,7 @@ public class CalculatorPresenterImp implements CalculatorPresenter {
          view.showResult(calculator.calculate(expression));
 
       } catch (OperationException | ExpressionException | NumberFormatException exception) {
+         exception.printStackTrace();
          view.showError();
       }
    }

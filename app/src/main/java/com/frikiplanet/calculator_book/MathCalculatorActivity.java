@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
+import com.frikiplanet.calculator_book.algorithms.MathOperation;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class MathCalculatorActivity extends AppCompatActivity implements
               findViewById(R.id.bt2), findViewById(R.id.bt3), findViewById(R.id.bt4), findViewById(R.id.bt5), findViewById(R.id.bt6), findViewById(R.id.bt7),
               findViewById(R.id.bt8), findViewById(R.id.bt9), findViewById(R.id.bt_dot));
 
-      setPresenter(new CalculatorPresenterImp(this, new MathCalculator(new MathExpression(), new MathOperation())));
+      setPresenter(new CalculatorPresenterImp(this, new MathDijkstraCalculator(new MathExpression(), new MathOperation())));
    }
 
    private void initializeViewListeners() {

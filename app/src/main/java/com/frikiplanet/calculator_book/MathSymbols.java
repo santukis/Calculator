@@ -1,19 +1,19 @@
 package com.frikiplanet.calculator_book;
 
-class MathSymbols {
+public class MathSymbols {
 
-    static final String ADDITION = "+";
-    static final String SUBTRACTION = "-";
-    static final String MULTIPLICATION = "x";
-    static final String DIVISION = "/";
-    static final String EXPONENTIATION = "^";
-    static final String SQUARE_ROOT = "r";
-    static final String FACTORIAL = "f";
-    static final String SQUARE_ROOT_SCREEN = "sqrt";
-    static final String FACTORIAL_SCREEN = "fact";
-    static final String PARENTHESIS_START = "(";
-    static final String PARENTHESIS_END = ")";
-    static final String DOT = ".";
-    static final String NONE = "none";
-    static final String EMPTY_STRING = "";
+    public static final String ADDITION = "+";
+    public static final String SUBTRACTION = "-";
+    public static final String MULTIPLICATION = "x";
+    public static final String DIVISION = "/";
+    public static final String EXPONENTIATION = "^";
+    public static final String SQUARE_ROOT = "r";
+    public static final String FACTORIAL = "f";
+    public static final String SQUARE_ROOT_SCREEN = "sqrt";
+    public static final String FACTORIAL_SCREEN = "fact";
+    public static final String PARENTHESIS_START = "(";
+    public static final String PARENTHESIS_END = ")";
+    public static final String DOT = ".";
+    public static final String NONE = "none";
+    public static final String EMPTY_STRING = "";
 }

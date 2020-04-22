@@ -5,6 +5,8 @@ import androidx.annotation.VisibleForTesting;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 public class MathCalculator implements Calculator {
 
@@ -24,7 +26,6 @@ public class MathCalculator implements Calculator {
 
          if (endsWithOperator(to)) {
             return expression.replaceSymbol(to, symbol);
-
          }
       }
       return expression.addSymbol(to, symbol);
@@ -138,6 +139,7 @@ public class MathCalculator implements Calculator {
 
       String[] symbols = expression.tokenize(from);
 
+
       for (String symbol : symbols) {
          if (symbol.isEmpty()) continue;
 
@@ -150,7 +152,7 @@ public class MathCalculator implements Calculator {
             binaryOperator = symbol;
 
          } else {
-            if(unaryOperator.equals(MathSymbols.NONE) && binaryOperator.equals(MathSymbols.NONE))
+            if (unaryOperator.equals(MathSymbols.NONE) && binaryOperator.equals(MathSymbols.NONE))
                result = operation.addition(result, Double.parseDouble(symbol));
 
             if (!unaryOperator.equals(MathSymbols.NONE)) {
@@ -159,7 +161,7 @@ public class MathCalculator implements Calculator {
                unaryOperator = MathSymbols.NONE;
             }
 
-            if(!binaryOperator.equals(MathSymbols.NONE)) {
+            if (!binaryOperator.equals(MathSymbols.NONE)) {
                result = calculateBinaryOperation(result, Double.parseDouble(symbol), binaryOperator);
                binaryOperator = MathSymbols.NONE;
             }
