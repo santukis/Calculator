@@ -1,6 +1,6 @@
-package com.frikiplanet.calculator_book.algorithms;
+package com.frikiplanet.calculator_book.domain.algorithms;
 
-import com.frikiplanet.calculator_book.OperationException;
+import com.frikiplanet.calculator_book.domain.OperationException;
 
 public class Factorial implements Algorithm {
 

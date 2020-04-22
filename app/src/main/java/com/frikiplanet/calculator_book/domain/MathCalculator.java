@@ -1,36 +1,51 @@
-package com.frikiplanet.calculator_book;
+package com.frikiplanet.calculator_book.domain;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-import com.frikiplanet.calculator_book.algorithms.MathOperation;
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Stack;
 
-public class MathDijkstraCalculator implements Calculator {
+public class MathCalculator implements Calculator {
 
     private Expression expression;
-    private MathOperation operation;
+    private Operation operation;
 
-    public MathDijkstraCalculator(Expression expression, MathOperation operation) {
+    public MathCalculator(Expression expression, Operation operation) {
         this.expression = expression;
         this.operation = operation;
     }
 
     @Override
-    public String addSymbol(@NonNull String to, @NonNull String symbol) {
+    public String addSymbol(@NonNull String to, @NonNull String symbol) throws ExpressionException {
+        throwsIfSymbolIsInvalid(symbol);
+
+        to = expression.read(to);
 
         if (isAnOperator(symbol) && endsWithOperator(to)) {
-            return expression.replaceSymbol(to, symbol);
+            to = replaceSymbol(to, symbol);
         }
-        return expression.addSymbol(to, symbol);
+
+        return expression.write(to.concat(symbol));
+    }
+
+    private String replaceSymbol(String to, String symbol) {
+        if (to.length() > 1) {
+            to = removeSymbol(to);
+            return to.concat(symbol);
+        }
+
+        return symbol;
     }
 
     @Override
     public String removeSymbol(@NonNull String from) {
-        return expression.removeSymbol(from);
+        from = expression.read(from);
+
+        int START_INDEX = 0;
+        int END_INDEX = from.length() - 1;
+
+        return from.isEmpty() ? from : expression.write(from.substring(START_INDEX, END_INDEX));
     }
 
     @Override
@@ -43,7 +58,7 @@ public class MathDijkstraCalculator implements Calculator {
             from = replaceParenthesis(from, resolve(parenthesis));
         }
 
-        return resolve(from);
+        return expression.write(resolve(from));
     }
 
     @VisibleForTesting
@@ -129,23 +144,21 @@ public class MathDijkstraCalculator implements Calculator {
     String resolve(String from) throws OperationException, ExpressionException {
         if (from.isEmpty()) return "";
 
-        String[] symbols = expression.tokenize(from);
-        Stack<String> operators = new Stack<>();
-        Stack<Double> numbers = new Stack<>();
-
-        for (int position = symbols.length - 1; position >= 0; position--) {
-            String symbol = symbols[position];
-            if (isAnOperator(symbol)) operators.push(symbol);
-            else {
-                Double number = Double.parseDouble(symbol);
-                if (number < 0 && position > 0) operators.push(MathSymbols.ADDITION);
-                numbers.push(number);
-            }
-        }
-
-        double result = operation.calculate(operators, numbers);
+        double result = operation.calculate(expression.tokenize(from));
 
         return getFormattedNumber(result);
+    }
+
+    private void throwsIfSymbolIsInvalid(String expression) throws ExpressionException {
+        for (char symbol : expression.toCharArray()) {
+            if (isSymbolInvalid(String.valueOf(symbol))) {
+                throw new ExpressionException(String.format("symbol %s is invalid", symbol));
+            }
+        }
+    }
+
+    private boolean isSymbolInvalid(String symbol) {
+        return !symbol.matches("([0-9]|[-+x/]|[.]|[()^fr])");
     }
 
     private boolean isAnOperator(String symbol) {

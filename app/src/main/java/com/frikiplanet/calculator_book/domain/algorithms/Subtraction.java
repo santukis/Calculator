@@ -1,4 +1,4 @@
-package com.frikiplanet.calculator_book.algorithms;
+package com.frikiplanet.calculator_book.domain.algorithms;
 
 public class Subtraction implements Algorithm {
 

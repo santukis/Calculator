@@ -1,4 +1,4 @@
-package com.frikiplanet.calculator_book;
+package com.frikiplanet.calculator_book.domain;
 
 public class ExpressionException extends RuntimeException {
 

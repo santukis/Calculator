@@ -1,6 +1,9 @@
-package com.frikiplanet.calculator_book;
+package com.frikiplanet.calculator_book.domain;
 
-import com.frikiplanet.calculator_book.algorithms.MathOperation;
+import com.frikiplanet.calculator_book.domain.Expression;
+import com.frikiplanet.calculator_book.domain.MathCalculator;
+import com.frikiplanet.calculator_book.domain.MathExpression;
+import com.frikiplanet.calculator_book.domain.MathOperation;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +13,6 @@ import junitparams.Parameters;
 
 import static com.google.common.truth.Truth.assertThat;
 import static junitparams.JUnitParamsRunner.$;
-import static org.junit.Assert.*;
 
 @RunWith(JUnitParamsRunner.class)
 public class MathDijkstraCalculatorTest {
@@ -20,7 +22,7 @@ public class MathDijkstraCalculatorTest {
     public void calculateShouldReturnExpectedExpression(String from, String expected) {
         Expression expression = new MathExpression();
         MathOperation operation = new MathOperation();
-        MathDijkstraCalculator calculator = new MathDijkstraCalculator(expression, operation);
+        MathCalculator calculator = new MathCalculator(expression, operation);
 
         assertThat(calculator.calculate(from)).isEqualTo(expected);
     }

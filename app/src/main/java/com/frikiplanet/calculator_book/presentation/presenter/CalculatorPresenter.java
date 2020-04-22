@@ -1,9 +1,9 @@
 package com.frikiplanet.calculator_book.presentation.presenter;
 
-import com.frikiplanet.calculator_book.Calculator;
+import com.frikiplanet.calculator_book.domain.Calculator;
 import com.frikiplanet.calculator_book.presentation.views.CalculatorView;
-import com.frikiplanet.calculator_book.ExpressionException;
-import com.frikiplanet.calculator_book.OperationException;
+import com.frikiplanet.calculator_book.domain.ExpressionException;
+import com.frikiplanet.calculator_book.domain.OperationException;
 
 public class CalculatorPresenter {
 
