@@ -1,5 +1,9 @@
 package com.frikiplanet.calculator_book;
 
+
+import com.frikiplanet.calculator_book.presentation.presenter.CalculatorPresenter;
+import com.frikiplanet.calculator_book.presentation.views.CalculatorView;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -12,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 public class CalculatorPresenterTest {
 
-   private CalculatorPresenterImp presenter;
+   private CalculatorPresenter presenter;
 
    @Mock
    private CalculatorView mockedView;
@@ -24,7 +28,7 @@ public class CalculatorPresenterTest {
    @Before
    public void setUp() throws Exception {
       MockitoAnnotations.initMocks(this);
-      presenter = new CalculatorPresenterImp(mockedView, mockedCalculator);
+      presenter = new CalculatorPresenter(mockedView, mockedCalculator);
    }
 
    @Test

@@ -2,7 +2,6 @@ package com.frikiplanet.calculator_book;
 
 import com.frikiplanet.calculator_book.algorithms.MathOperation;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 

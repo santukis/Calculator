@@ -1,16 +1,20 @@
-package com.frikiplanet.calculator_book;
+package com.frikiplanet.calculator_book.presentation.presenter;
 
-public class CalculatorPresenterImp implements CalculatorPresenter {
+import com.frikiplanet.calculator_book.Calculator;
+import com.frikiplanet.calculator_book.presentation.views.CalculatorView;
+import com.frikiplanet.calculator_book.ExpressionException;
+import com.frikiplanet.calculator_book.OperationException;
+
+public class CalculatorPresenter {
 
    private CalculatorView view;
    private Calculator calculator;
 
-   public CalculatorPresenterImp(CalculatorView view, Calculator calculator) {
+   public CalculatorPresenter(CalculatorView view, Calculator calculator) {
       this.view = view;
       this.calculator = calculator;
    }
 
-   @Override
    public void addSymbol(String expression, String symbol) {
       try {
          view.showOperations(calculator.addSymbol(expression, symbol));
@@ -20,17 +24,14 @@ public class CalculatorPresenterImp implements CalculatorPresenter {
       }
    }
 
-   @Override
    public void removeSymbol(String expression) {
       view.showOperations(calculator.removeSymbol(expression));
    }
 
-   @Override
    public void clearScreen() {
       view.showOperations("");
    }
 
-   @Override
    public void calculate(String expression) {
       if (expression.isEmpty()) {
          view.showResult(expression);
