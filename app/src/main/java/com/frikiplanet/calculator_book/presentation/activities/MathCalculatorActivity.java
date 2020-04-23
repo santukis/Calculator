@@ -21,6 +21,7 @@ import com.frikiplanet.calculator_book.domain.MathCalculator;
 import com.frikiplanet.calculator_book.domain.MathExpression;
 import com.frikiplanet.calculator_book.R;
 import com.frikiplanet.calculator_book.domain.MathOperation;
+import com.frikiplanet.calculator_book.domain.MathOperationWithPrecedence;
 import com.frikiplanet.calculator_book.presentation.presenter.CalculatorPresenter;
 import com.frikiplanet.calculator_book.presentation.views.CalculatorView;
 
@@ -63,7 +64,7 @@ public class MathCalculatorActivity extends AppCompatActivity implements
               findViewById(R.id.bt2), findViewById(R.id.bt3), findViewById(R.id.bt4), findViewById(R.id.bt5), findViewById(R.id.bt6), findViewById(R.id.bt7),
               findViewById(R.id.bt8), findViewById(R.id.bt9), findViewById(R.id.bt_dot));
 
-      setPresenter(new CalculatorPresenter(this, new MathCalculator(new MathExpression(), new MathOperation())));
+      setPresenter(new CalculatorPresenter(this, new MathCalculator(new MathExpression(), new MathOperationWithPrecedence())));
    }
 
    private void initializeViewListeners() {

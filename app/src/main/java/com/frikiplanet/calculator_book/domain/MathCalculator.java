@@ -40,12 +40,20 @@ public class MathCalculator implements Calculator {
 
     @Override
     public String removeSymbol(@NonNull String from) {
-        from = expression.read(from);
+        from = removeLastSymbol(expression.read(from));
 
+        while (from.endsWith("r") || from.endsWith("f")) {
+            from = removeLastSymbol(from);
+        }
+
+        return from.isEmpty() ? from : expression.write(from);
+    }
+
+    private String removeLastSymbol(String from) {
         int START_INDEX = 0;
         int END_INDEX = from.length() - 1;
 
-        return from.isEmpty() ? from : expression.write(from.substring(START_INDEX, END_INDEX));
+        return from.substring(START_INDEX, END_INDEX);
     }
 
     @Override
