@@ -1,7 +1,6 @@
-package com.frikiplanet.calculator_book.presentation.presenter;
+package com.frikiplanet.calculator_book.presentation;
 
 import com.frikiplanet.calculator_book.domain.Calculator;
-import com.frikiplanet.calculator_book.presentation.views.CalculatorView;
 import com.frikiplanet.calculator_book.domain.ExpressionException;
 import com.frikiplanet.calculator_book.domain.OperationException;
 

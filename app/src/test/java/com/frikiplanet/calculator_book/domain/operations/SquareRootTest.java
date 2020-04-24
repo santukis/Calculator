@@ -1,6 +1,7 @@
-package com.frikiplanet.calculator_book.domain.algorithms;
+package com.frikiplanet.calculator_book.domain.operations;
 
 import com.frikiplanet.calculator_book.domain.OperationException;
+import com.frikiplanet.calculator_book.domain.Pair;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,11 +16,11 @@ import static junitparams.JUnitParamsRunner.$;
 @RunWith(JUnitParamsRunner.class)
 public class SquareRootTest {
 
-    private Algorithm algorithm;
+    private Operation operation;
 
     @Before
     public void setUp() throws Exception {
-        algorithm = new SquareRoot();
+        operation = new SquareRoot();
     }
 
     @Parameters(method = "getValidSquareRootInput")
@@ -27,7 +28,7 @@ public class SquareRootTest {
     public void squareRootShouldReturnExpectedValueWhenInputIsReal(
             double radicand, double expectedValue) {
 
-        double result = algorithm.calculate(radicand);
+        double result = operation.calculate(new Pair<>(1d, radicand));
 
         assertThat(result).isWithin(1.0e-3).of(expectedValue);
     }
@@ -44,7 +45,7 @@ public class SquareRootTest {
     @Parameters(method = "getInvalidSquareRootInput")
     @Test(expected = OperationException.class)
     public void squareRootShouldThrowWhenOperandIsInvalid(double radicand) {
-        algorithm.calculate(radicand);
+        operation.calculate(new Pair<>(1d, radicand));
     }
 
     private Object[] getInvalidSquareRootInput() {
@@ -58,7 +59,7 @@ public class SquareRootTest {
 
     @Test(expected = OperationException.class)
     public void squareRootShouldThrowsWhenValuesAreNull() {
-        algorithm.calculate(null);
+        operation.calculate(null);
     }
 
 }

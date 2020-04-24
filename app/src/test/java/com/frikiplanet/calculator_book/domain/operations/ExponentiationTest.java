@@ -1,6 +1,7 @@
-package com.frikiplanet.calculator_book.domain.algorithms;
+package com.frikiplanet.calculator_book.domain.operations;
 
 import com.frikiplanet.calculator_book.domain.OperationException;
+import com.frikiplanet.calculator_book.domain.Pair;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ import static junitparams.JUnitParamsRunner.$;
 @RunWith(JUnitParamsRunner.class)
 public class ExponentiationTest {
 
-    private Algorithm algoritm;
+    private Operation algoritm;
 
     @Before
     public void setUp() throws Exception {
@@ -27,7 +28,7 @@ public class ExponentiationTest {
     public void exponentiationShouldReturnExpectedValueWhenInputAreIntegers(
             double base, double exponent, double expectedValue) {
 
-        double result = algoritm.calculate(base, exponent);
+        double result = algoritm.calculate(new Pair<>(base, exponent));
 
         assertThat(result).isWithin(1e-10).of(expectedValue);
     }
@@ -49,7 +50,7 @@ public class ExponentiationTest {
     @Test(expected = OperationException.class)
     public void exponentiationShouldThrowWhenOperandsAreInvalid(
             double base, double exponent) {
-        algoritm.calculate(base, exponent);
+        algoritm.calculate(new Pair<>(base, exponent));
     }
 
     private Object[] getInvalidExponentiationInput() {
@@ -70,7 +71,7 @@ public class ExponentiationTest {
     @Parameters(method = "getNullInput")
     @Test(expected = OperationException.class)
     public void exponentiationShouldThrowsWhenValuesAreNull(Double base, Double exponent) {
-        algoritm.calculate(base, exponent);
+        algoritm.calculate(new Pair<>(base, exponent));
     }
 
     private Object[] getNullInput() {

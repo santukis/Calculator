@@ -4,6 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
+import java.util.List;
+
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
@@ -152,8 +155,8 @@ public class MathExpressionTest {
    @Test
    public void tokenizeShouldReturnExpectedExpression(
            String original, Object[] expected) {
-      String[] result = expression.tokenize(original);
-      assertThat(result).isEqualTo(expected);
+      List<String> result = expression.tokenize(original);
+      assertThat(result).isEqualTo(Arrays.asList(expected));
    }
 
    private Object[] tokenizeExpressionData() {

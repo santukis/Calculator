@@ -4,26 +4,29 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
 import static com.google.common.truth.Truth.assertThat;
 
 @RunWith(JUnitParamsRunner.class)
-public class MathOperationWithPrecedenceTest {
+public class MathResolverTest {
 
-    private Operation operation;
+    private Resolver resolver;
 
     @Before
     public void setUp() {
-        operation = new MathOperationWithPrecedence();
+        resolver = new MathResolver();
     }
 
 
     @Parameters(method = "calculateData")
     @Test
     public void calculateShouldReturnExpectedExpression(String[] from, Double expected) {
-        assertThat(operation.calculate(from)).isEqualTo(expected);
+        assertThat(resolver.resolve(new ArrayList<>(Arrays.asList(from)))).isEqualTo(expected);
     }
 
     private Object[] calculateData() {

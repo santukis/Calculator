@@ -2,6 +2,10 @@ package com.frikiplanet.calculator_book.domain;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Manage the MathCalculator expression input and output
  */
@@ -27,7 +31,7 @@ public class MathExpression implements Expression {
    }
 
    @Override
-   public String[] tokenize(@NonNull String expression) {
-      return expression.split("(?=[+x/^rf-])|(?<=[+x/^rf])");
+   public List<String> tokenize(@NonNull String expression) {
+      return new ArrayList<>(Arrays.asList(expression.split("(?=[+x/^rf-])|(?<=[+x/^rf])")));
    }
 }

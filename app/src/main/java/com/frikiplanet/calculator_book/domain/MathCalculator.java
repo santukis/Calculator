@@ -9,11 +9,11 @@ import java.text.DecimalFormatSymbols;
 public class MathCalculator implements Calculator {
 
     private Expression expression;
-    private Operation operation;
+    private Resolver resolver;
 
-    public MathCalculator(Expression expression, Operation operation) {
+    public MathCalculator(Expression expression, Resolver resolver) {
         this.expression = expression;
-        this.operation = operation;
+        this.resolver = resolver;
     }
 
     @Override
@@ -152,7 +152,7 @@ public class MathCalculator implements Calculator {
     String resolve(String from) throws OperationException, ExpressionException {
         if (from.isEmpty()) return "";
 
-        double result = operation.calculate(expression.tokenize(from));
+        double result = resolver.resolve(expression.tokenize(from));
 
         return getFormattedNumber(result);
     }

@@ -10,7 +10,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.frikiplanet.calculator_book.presentation.activities.MathCalculatorActivity;
+import com.frikiplanet.calculator_book.presentation.MathCalculatorActivity;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

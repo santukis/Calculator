@@ -1,11 +1,9 @@
-package com.frikiplanet.calculator_book.domain;
+package com.frikiplanet.calculator_book.presentation;
 
 
 import com.frikiplanet.calculator_book.domain.Calculator;
 import com.frikiplanet.calculator_book.domain.ExpressionException;
 import com.frikiplanet.calculator_book.domain.OperationException;
-import com.frikiplanet.calculator_book.presentation.presenter.CalculatorPresenter;
-import com.frikiplanet.calculator_book.presentation.views.CalculatorView;
 
 import org.junit.Before;
 import org.junit.Test;

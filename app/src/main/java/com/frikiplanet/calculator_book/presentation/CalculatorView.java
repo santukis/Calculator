@@ -1,6 +1,4 @@
-package com.frikiplanet.calculator_book.presentation.views;
-
-import com.frikiplanet.calculator_book.presentation.presenter.CalculatorPresenter;
+package com.frikiplanet.calculator_book.presentation;
 
 public interface CalculatorView {
 

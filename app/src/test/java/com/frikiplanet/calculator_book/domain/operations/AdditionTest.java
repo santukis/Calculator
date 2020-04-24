@@ -1,6 +1,7 @@
-package com.frikiplanet.calculator_book.domain.algorithms;
+package com.frikiplanet.calculator_book.domain.operations;
 
 import com.frikiplanet.calculator_book.domain.OperationException;
+import com.frikiplanet.calculator_book.domain.Pair;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,11 +15,11 @@ import static org.junit.Assert.*;
 @RunWith(JUnitParamsRunner.class)
 public class AdditionTest {
 
-    private Algorithm algorithm;
+    private Operation operation;
 
     @Before
     public void setup() {
-        algorithm = new Addition();
+        operation = new Addition();
     }
 
     @Parameters(method = "getValidAdditionInput")
@@ -26,7 +27,7 @@ public class AdditionTest {
     public void additionShouldReturnExpectedValueWhenOperandsAreReal(
             double operand1, double operand2, double expectedValue) {
         //ACT OR WHEN
-        double result = algorithm.calculate(operand1, operand2);
+        double result = operation.calculate(new Pair<>(operand1, operand2));
 
         //ASSERT OR THEN
         assertEquals(String.format("Result %1s should be equal to expectedValue %2s", result, expectedValue),
@@ -47,7 +48,7 @@ public class AdditionTest {
     @Parameters(method = "getInvalidInput")
     @Test(expected = OperationException.class)
     public void additionShouldThrowsWhenValuesAreInvalid(Double operand1, Double operand2) {
-        algorithm.calculate(operand1, operand2);
+        operation.calculate(new Pair<>(operand1, operand2));
     }
 
     private Object[] getInvalidInput() {
@@ -63,7 +64,7 @@ public class AdditionTest {
     @Parameters(method = "getNullInput")
     @Test(expected = OperationException.class)
     public void additionShouldThrowsWhenValuesAreNull(Double operand1, Double operand2) {
-        algorithm.calculate(operand1, operand2);
+        operation.calculate(new Pair<>(operand1, operand2));
     }
 
     private Object[] getNullInput() {

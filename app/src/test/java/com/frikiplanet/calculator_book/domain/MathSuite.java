@@ -1,5 +1,7 @@
 package com.frikiplanet.calculator_book.domain;
 
+import com.frikiplanet.calculator_book.presentation.CalculatorPresenterTest;
+
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -7,7 +9,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         CalculatorPresenterTest.class,
         MathExpressionTest.class,
-        MathOperationTest.class,
+        MathResolverTest.class,
         MathCalculatorTest.class
 })
 public class MathSuite {

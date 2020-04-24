@@ -1,6 +1,7 @@
-package com.frikiplanet.calculator_book.domain.algorithms;
+package com.frikiplanet.calculator_book.domain.operations;
 
 import com.frikiplanet.calculator_book.domain.OperationException;
+import com.frikiplanet.calculator_book.domain.Pair;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,18 +16,18 @@ import static junitparams.JUnitParamsRunner.$;
 @RunWith(JUnitParamsRunner.class)
 public class MultiplicationTest {
 
-    private Algorithm algorithm;
+    private Operation operation;
 
     @Before
     public void setUp() throws Exception {
-        algorithm = new Multiplication();
+        operation = new Multiplication();
     }
 
     @Parameters(method = "getValidMultiplicationInput")
     @Test
     public void multiplicationShouldReturnExpectedValueWhenOperandsAndResultAreReal(
             double operand1, double operand2, double expectedValue) {
-        double result = algorithm.calculate(operand1, operand2);
+        double result = operation.calculate(new Pair<>(operand1, operand2));
 
         //Truth
         assertThat(result).isWithin(1.0e-10).of(expectedValue);
@@ -45,7 +46,7 @@ public class MultiplicationTest {
     @Test(expected = OperationException.class)
     public void multiplicationShouldThrowsWhenOperandsOrResultAreInvalid(
             double operand1, double operand2) {
-        algorithm.calculate(operand1, operand2);
+        operation.calculate(new Pair<>(operand1, operand2));
     }
 
     private Object[] getInvalidMultiplicationInput() {
@@ -62,7 +63,7 @@ public class MultiplicationTest {
     @Parameters(method = "getNullInput")
     @Test(expected = OperationException.class)
     public void multiplicationShouldThrowsWhenValuesAreNull(Double operand1, Double operand2) {
-        algorithm.calculate(operand1, operand2);
+        operation.calculate(new Pair<>(operand1, operand2));
     }
 
     private Object[] getNullInput() {

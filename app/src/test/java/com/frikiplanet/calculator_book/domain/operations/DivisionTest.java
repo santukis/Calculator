@@ -1,6 +1,7 @@
-package com.frikiplanet.calculator_book.domain.algorithms;
+package com.frikiplanet.calculator_book.domain.operations;
 
 import com.frikiplanet.calculator_book.domain.OperationException;
+import com.frikiplanet.calculator_book.domain.Pair;
 import com.google.common.truth.Truth;
 
 import org.junit.Before;
@@ -11,16 +12,15 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
 import static junitparams.JUnitParamsRunner.$;
-import static org.junit.Assert.*;
 
 @RunWith(JUnitParamsRunner.class)
 public class DivisionTest {
 
-    private Algorithm algorithm;
+    private Operation operation;
 
     @Before
     public void setUp() throws Exception {
-        algorithm = new Division();
+        operation = new Division();
     }
 
     @Parameters(method = "getValidDivisionInput")
@@ -28,7 +28,7 @@ public class DivisionTest {
     public void divisionShouldReturnExpectedValueWhenOperandsAreReal(
             double operand1, double operand2, double expectedValue) {
 
-        double result = algorithm.calculate(operand1, operand2);
+        double result = operation.calculate(new Pair<>(operand1, operand2));
 
         Truth.assertThat(result).isWithin(1.0e-10).of(expectedValue);
     }
@@ -47,7 +47,7 @@ public class DivisionTest {
     public void divisionShouldThrowWhenOperandsOrResultAreInvalid(
             Double operand1, Double operand2) {
 
-        algorithm.calculate(operand1, operand2);
+        operation.calculate(new Pair<>(operand1, operand2));
     }
 
     private Object[] getInvalidDivisionInput() {
@@ -63,7 +63,7 @@ public class DivisionTest {
     @Parameters(method = "getNullInput")
     @Test(expected = OperationException.class)
     public void divisionShouldThrowsWhenValuesAreNull(Double operand1, Double operand2) {
-        algorithm.calculate(operand1, operand2);
+        operation.calculate(new Pair<>(operand1, operand2));
     }
 
     private Object[] getNullInput() {

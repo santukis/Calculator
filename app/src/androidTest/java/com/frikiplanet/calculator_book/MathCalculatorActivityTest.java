@@ -7,7 +7,7 @@ import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.rule.ActivityTestRule;
 
-import com.frikiplanet.calculator_book.presentation.activities.MathCalculatorActivity;
+import com.frikiplanet.calculator_book.presentation.MathCalculatorActivity;
 
 import org.hamcrest.Matcher;
 import org.junit.Rule;

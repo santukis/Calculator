@@ -7,14 +7,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
+
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
 import static com.google.common.truth.Truth.assertThat;
 import static junitparams.JUnitParamsRunner.$;
-import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,13 +27,13 @@ public class MathCalculatorTest {
    private Expression mockedExpression;
 
    @Mock
-   private Operation mockedOperation;
+   private Resolver mockedResolver;
 
    @Before
    public void setUp() throws Exception {
       MockitoAnnotations.initMocks(this);
-      Operation operation = new MathOperation();
-      calculator = new MathCalculator(mockedExpression, operation);
+      Resolver resolver = new MathResolver();
+      calculator = new MathCalculator(mockedExpression, resolver);
    }
 
    @Parameters(value = {"(", "()", "3(", "7+2("})
@@ -108,7 +108,7 @@ public class MathCalculatorTest {
            String to, String symbol) {
       //Arrange
       MockExpression mockedExpression = new MockExpression(); //Creamos un test doble de tipo mock
-      MathOperation dummyOperation = null; //Creamos un test doble de tipo stub, Dummy según la tipología de Meszaros
+      MathResolver dummyOperation = null; //Creamos un test doble de tipo stub, Dummy según la tipología de Meszaros
       MathCalculator calculator = new MathCalculator(mockedExpression, dummyOperation);
 
       //Act
@@ -135,7 +135,7 @@ public class MathCalculatorTest {
            String to, String symbol) {
       //Arrange
       MockExpression mockedExpression = new MockExpression(); //Creamos un test doble de tipo mock
-      MathOperation dummyOperation = null; //Creamos un test doble de tipo stub, Dummy según la tipología de Meszaros
+      MathResolver dummyOperation = null; //Creamos un test doble de tipo stub, Dummy según la tipología de Meszaros
       MathCalculator calculator = new MathCalculator(mockedExpression, dummyOperation);
 
       //Act
@@ -167,7 +167,7 @@ public class MathCalculatorTest {
    public void calculateShouldReturnExpectedExpression(
            String from, String expected) {
       Expression expression = new MathExpression();
-      MathOperation operation = new MathOperation();
+      MathResolver operation = new MathResolver();
       MathCalculator calculator = new MathCalculator(expression, operation);
 
       assertThat(calculator.calculate(from)).isEqualTo(expected);
@@ -186,7 +186,7 @@ public class MathCalculatorTest {
    @Test
    public void resolveShouldReturnExpectedExpression(
            String from, String[] tokens, String expected) {
-      when(mockedExpression.tokenize(from)).thenReturn(tokens);
+      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
       assertThat(calculator.resolve(from)).isEqualTo(expected);
    }
 
@@ -210,8 +210,8 @@ public class MathCalculatorTest {
    @Test
    public void resolveShouldCallXTimesAdditionMethod(
            String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedOperation);
-      when(mockedExpression.tokenize(from)).thenReturn(tokens);
+      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
+      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
       calculator.resolve(from);
    //   verify(mockedOperation, times(times)).addition(anyDouble(),anyDouble());
    }
@@ -229,8 +229,8 @@ public class MathCalculatorTest {
    @Test
    public void resolveShouldCallXTimesSubtractionMethod(
            String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedOperation);
-      when(mockedExpression.tokenize(from)).thenReturn(tokens);
+      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
+      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
       calculator.resolve(from);
  //     verify(mockedOperation, times(times)).subtraction(anyDouble(),anyDouble());
    }
@@ -247,8 +247,8 @@ public class MathCalculatorTest {
    @Test
    public void resolveShouldCallXTimesMultiplicationMethod(
            String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedOperation);
-      when(mockedExpression.tokenize(from)).thenReturn(tokens);
+      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
+      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
       calculator.resolve(from);
  //     verify(mockedOperation, times(times)).multiplication(anyDouble(),anyDouble());
    }
@@ -266,8 +266,8 @@ public class MathCalculatorTest {
    @Test
    public void resolveShouldCallXTimesDivisionMethod(
            String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedOperation);
-      when(mockedExpression.tokenize(from)).thenReturn(tokens);
+      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
+      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
       calculator.resolve(from);
  //     verify(mockedOperation, times(times)).division(anyDouble(),anyDouble());
    }
@@ -285,8 +285,8 @@ public class MathCalculatorTest {
    @Test
    public void resolveShouldCallXTimesFactorialMethod(
            String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedOperation);
-      when(mockedExpression.tokenize(from)).thenReturn(tokens);
+      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
+      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
       calculator.resolve(from);
   //    verify(mockedOperation, times(times)).factorial(anyDouble());
    }
@@ -304,8 +304,8 @@ public class MathCalculatorTest {
    @Test
    public void resolveShouldCallXTimesSquareRootMethod(
            String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedOperation);
-      when(mockedExpression.tokenize(from)).thenReturn(tokens);
+      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
+      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
       calculator.resolve(from);
  //     verify(mockedOperation, times(times)).squareRoot(anyDouble());
    }

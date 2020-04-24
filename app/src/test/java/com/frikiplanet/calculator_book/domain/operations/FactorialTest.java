@@ -1,6 +1,7 @@
-package com.frikiplanet.calculator_book.domain.algorithms;
+package com.frikiplanet.calculator_book.domain.operations;
 
 import com.frikiplanet.calculator_book.domain.OperationException;
+import com.frikiplanet.calculator_book.domain.Pair;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,11 +17,11 @@ import static junitparams.JUnitParamsRunner.$;
 @RunWith(JUnitParamsRunner.class)
 public class FactorialTest {
 
-    private Algorithm algorithm;
+    private Operation operation;
 
     @Before
     public void setUp() throws Exception {
-        algorithm = new Factorial();
+        operation = new Factorial();
     }
 
     @Parameters(method = "getValidFactorialInput")
@@ -28,7 +29,7 @@ public class FactorialTest {
     public void factorialShouldReturnExpectedValueWhenOperandIsNatural(
             double operand, double expectedValue) {
 
-        double result = algorithm.calculate(operand);
+        double result = operation.calculate(new Pair<>(1d, operand));
 
         assertThat(result).isEqualTo(expectedValue);
     }
@@ -51,7 +52,7 @@ public class FactorialTest {
     public void factorialShouldThrowsWhenOperandIsInvalid(double operand) {
 
         try {
-            algorithm.calculate(operand);
+            operation.calculate(new Pair<>(1d, operand));
             Assert.fail("factorial should throws an Exception/Error");
 
         } catch (OperationException exception) {
@@ -76,6 +77,6 @@ public class FactorialTest {
 
     @Test(expected = OperationException.class)
     public void factorialShouldThrowsWhenValuesAreNull() {
-        algorithm.calculate(null);
+        operation.calculate(null);
     }
 }
