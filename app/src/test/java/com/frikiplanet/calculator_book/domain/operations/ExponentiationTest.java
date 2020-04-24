@@ -19,7 +19,7 @@ public class ExponentiationTest {
     private Operation algoritm;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         algoritm = new Exponentiation();
     }
 

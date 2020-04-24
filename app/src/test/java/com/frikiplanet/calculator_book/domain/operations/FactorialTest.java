@@ -20,7 +20,7 @@ public class FactorialTest {
     private Operation operation;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         operation = new Factorial();
     }
 

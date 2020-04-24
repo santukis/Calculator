@@ -19,7 +19,7 @@ public class DivisionTest {
     private Operation operation;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         operation = new Division();
     }
 

@@ -22,8 +22,8 @@ public class MathCalculator implements Calculator {
 
         to = expression.read(to);
 
-        if (isAnOperator(symbol) && endsWithOperator(to)) {
-            to = replaceSymbol(to, symbol);
+        if (isABinaryOperator(symbol) && endsWithBinaryOperator(to)) {
+            return replaceSymbol(to, symbol);
         }
 
         return expression.write(to.concat(symbol));
@@ -32,7 +32,7 @@ public class MathCalculator implements Calculator {
     private String replaceSymbol(String to, String symbol) {
         if (to.length() > 1) {
             to = removeSymbol(to);
-            return to.concat(symbol);
+            return to.concat(expression.write(symbol));
         }
 
         return symbol;
@@ -42,14 +42,17 @@ public class MathCalculator implements Calculator {
     public String removeSymbol(@NonNull String from) {
         from = removeLastSymbol(expression.read(from));
 
-        while (from.endsWith("r") || from.endsWith("f")) {
+        while (from.endsWith(MathSymbols.FACTORIAL) || from.endsWith(MathSymbols.SQUARE_ROOT)) {
             from = removeLastSymbol(from);
         }
 
         return from.isEmpty() ? from : expression.write(from);
     }
 
-    private String removeLastSymbol(String from) {
+    @VisibleForTesting
+    String removeLastSymbol(String from) {
+        if (from.isEmpty()) return from;
+
         int START_INDEX = 0;
         int END_INDEX = from.length() - 1;
 
@@ -58,7 +61,6 @@ public class MathCalculator implements Calculator {
 
     @Override
     public String calculate(@NonNull String from) throws OperationException, ExpressionException {
-
         from = expression.read(from);
 
         while (containsParenthesis(from)) {
@@ -66,7 +68,7 @@ public class MathCalculator implements Calculator {
             from = replaceParenthesis(from, resolve(parenthesis));
         }
 
-        return expression.write(resolve(from));
+        return resolve(from);
     }
 
     @VisibleForTesting
@@ -186,12 +188,11 @@ public class MathCalculator implements Calculator {
                 symbol.equals(MathSymbols.FACTORIAL);
     }
 
-    private boolean endsWithOperator(String expression) {
+    private boolean endsWithBinaryOperator(String expression) {
         expression = expression.trim();
         return expression.endsWith(MathSymbols.ADDITION) || expression.endsWith(MathSymbols.SUBTRACTION) ||
                 expression.endsWith(MathSymbols.MULTIPLICATION) || expression.endsWith(MathSymbols.DIVISION) ||
-                expression.endsWith(MathSymbols.EXPONENTIATION) || expression.endsWith(MathSymbols.SQUARE_ROOT_SCREEN) ||
-                expression.endsWith(MathSymbols.FACTORIAL_SCREEN) || expression.endsWith(MathSymbols.DOT);
+                expression.endsWith(MathSymbols.EXPONENTIATION);
     }
 
     private String getFormattedNumber(double value) {

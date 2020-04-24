@@ -4,9 +4,11 @@ package com.frikiplanet.calculator_book.domain;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import junitparams.JUnitParamsRunner;
@@ -15,6 +17,7 @@ import junitparams.Parameters;
 import static com.google.common.truth.Truth.assertThat;
 import static junitparams.JUnitParamsRunner.$;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +33,7 @@ public class MathCalculatorTest {
    private Resolver mockedResolver;
 
    @Before
-   public void setUp() throws Exception {
+   public void setUp() {
       MockitoAnnotations.initMocks(this);
       Resolver resolver = new MathResolver();
       calculator = new MathCalculator(mockedExpression, resolver);
@@ -87,10 +90,13 @@ public class MathCalculatorTest {
    @Parameters(method = "addSymbolData")
    @Test
    public void addSymbolShouldCallAddSymbol(String to, String symbol) {
+      when(mockedExpression.read(to)).thenReturn(to);
+      ArgumentCaptor<String> expressionCaptor = ArgumentCaptor.forClass(String.class);
+
       calculator.addSymbol(to, symbol);
 
-//      verify(mockedExpression, times(1)).addSymbol(anyString(), anyString());
-//      verify(mockedExpression, times(0)).replaceSymbol(anyString(), anyString());
+      verify(mockedExpression).write(expressionCaptor.capture());
+      assertThat(expressionCaptor.getValue()).endsWith(symbol);
    }
 
    private Object[] addSymbolData() {
@@ -102,64 +108,74 @@ public class MathCalculatorTest {
       );
    }
 
-   @Parameters(method = "addSymbolData")
-   @Test
-   public void addSymbolShouldCallAddSymbolInExpression(
-           String to, String symbol) {
-      //Arrange
-      MockExpression mockedExpression = new MockExpression(); //Creamos un test doble de tipo mock
-      MathResolver dummyOperation = null; //Creamos un test doble de tipo stub, Dummy según la tipología de Meszaros
-      MathCalculator calculator = new MathCalculator(mockedExpression, dummyOperation);
-
-      //Act
-      calculator.addSymbol(to, symbol);
-
-      //Assert
-//      assertThat(mockedExpression.symbolAdded).isTrue();
-//      assertThat(mockedExpression.symbolReplaced).isFalse();
-   }
-
    @Parameters(method = "replaceSymbolData")
    @Test
-   public void addSymbolShouldCallReplaceSymbol(
-           String to, String symbol) {
-      calculator.addSymbol(to, symbol);
+   public void addSymbolShouldCallReplaceSymbol(String to, String symbol, String expected) {
+      calculator = new MathCalculator(new MathExpression(), null);
+      String result = calculator.addSymbol(to, symbol);
 
-//      verify(mockedExpression, times(1)).replaceSymbol(anyString(), anyString());
-//      verify(mockedExpression, times(0)).addSymbol(anyString(), anyString());
-   }
-
-   @Parameters(method = "replaceSymbolData")
-   @Test
-   public void addSymbolShouldCallReplaceSymbolInExpression(
-           String to, String symbol) {
-      //Arrange
-      MockExpression mockedExpression = new MockExpression(); //Creamos un test doble de tipo mock
-      MathResolver dummyOperation = null; //Creamos un test doble de tipo stub, Dummy según la tipología de Meszaros
-      MathCalculator calculator = new MathCalculator(mockedExpression, dummyOperation);
-
-      //Act
-      calculator.addSymbol(to, symbol);
-
-      //Assert
-//      assertThat(mockedExpression.symbolAdded).isFalse();
-//      assertThat(mockedExpression.symbolReplaced).isTrue();
+      assertThat(result).isEqualTo(expected);
    }
 
    private Object[] replaceSymbolData() {
       return $(
-              $("-", "+"),
-              $("-5+", "x"),
-              $("3x4/", "f"),
-              $("3sqrt", "x"),
-              $("3.", "/")
+              $("+", "+", "+"),
+              $("-", "-", "-"),
+              $("x", "x", "x"),
+              $("/", "/", "/"),
+              $("^", "^", "^"),
+              $("-", "+", "+"),
+              $("-5+", "x", " - 5 x "),
+              $("3x4/", "x", "3 x 4 x "),
+              $("3-", "+", "3 + ")
       );
    }
 
+   @Parameters(method = "removeSymbolData")
    @Test
-   public void removeSymbolShouldCallRemoveSymbol() {
-      calculator.removeSymbol("");
-    //  verify(mockedExpression, times(1)).removeSymbol("");
+   public void removeSymbolShouldRemoveLastSymbol(String to, String expected) {
+      calculator = new MathCalculator(new MathExpression(), null);
+      String result = calculator.removeSymbol(to);
+
+      assertThat(result).isEqualTo(expected);
+   }
+
+   private Object[] removeSymbolData() {
+      return $(
+              $("", ""),
+              $("+", ""),
+              $("-", ""),
+              $("x", ""),
+              $("/", ""),
+              $("^", ""),
+              $("-", ""),
+              $("-5+", " - 5"),
+              $("3r(", "3"),
+              $("4.5x7.6f(", "4.5 x 7.6")
+
+      );
+   }
+
+   @Parameters(method = "removeLastSymbolData")
+   @Test
+   public void removeLastSymbol(String to, String expected) {
+      String result = calculator.removeLastSymbol(to);
+
+      assertThat(result).isEqualTo(expected);
+   }
+
+   private Object[] removeLastSymbolData() {
+      return $(
+              $("", ""),
+              $("-", ""),
+              $("+", ""),
+              $("/", ""),
+              $("x", ""),
+              $("3.", "3"),
+              $("3.2", "3."),
+              $("3.2", "3."),
+              $("3+", "3")
+      );
    }
 
    @Parameters(method = "calculateData")
@@ -186,7 +202,7 @@ public class MathCalculatorTest {
    @Test
    public void resolveShouldReturnExpectedExpression(
            String from, String[] tokens, String expected) {
-      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
+      when(mockedExpression.tokenize(from)).thenReturn(new ArrayList<>(Arrays.asList(tokens)));
       assertThat(calculator.resolve(from)).isEqualTo(expected);
    }
 
@@ -196,132 +212,19 @@ public class MathCalculatorTest {
               $("-", new String[] {"-"}, "0"),
               $("-5", new String[] {"-5"}, "-5"),
               $("3.4", new String[] {"3.4"}, "3.4"),
-              $("3-2", new String[] {"3", "-2"}, "1"),
+              $("3-2", new String[] {"3", "-", "2"}, "1"),
               $("3+2", new String[] {"3", "+", "2"}, "5"),
               $("f3", new String[] {"f", "3"}, "6"),
-              $("2f3", new String[] {"2", "f", "3"}, "12"),
+              $("2f3", new String[] {"2", "x", "f", "3"}, "12"),
               $("9/r9", new String[] {"9", "/", "r", "9"}, "3"),
               $("3^f3", new String[]{"3", "^", "f", "3"}, "729"),
               $("3--4", new String[] {"3", "-", "-4"}, "7")
       );
    }
 
-   @Parameters(method = "resolveAdditionData")
-   @Test
-   public void resolveShouldCallXTimesAdditionMethod(
-           String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
-      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
-      calculator.resolve(from);
-   //   verify(mockedOperation, times(times)).addition(anyDouble(),anyDouble());
-   }
-
-   private Object[] resolveAdditionData() {
-      return $(
-              $("2+2", new String[] {"2", "+", "2"}, 2),
-              $("", new String[] {""}, 0),
-              $("2", new String[] {"2"}, 1),
-              $("2+2x3-5", new String[] {"2", "+", "2", "x", "3", "-5"}, 3)
-      );
-   }
-
-   @Parameters(method = "resolveSubtractionData")
-   @Test
-   public void resolveShouldCallXTimesSubtractionMethod(
-           String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
-      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
-      calculator.resolve(from);
- //     verify(mockedOperation, times(times)).subtraction(anyDouble(),anyDouble());
-   }
-
-   private Object[] resolveSubtractionData() {
-      return $(
-              $("", new String[] {""}, 0),
-              $("-2", new String[] {"-2"}, 0),
-              $("2--5", new String[] {"2", "-", "-5"}, 1)
-      );
-   }
-
-   @Parameters(method = "resolveMultiplicationData")
-   @Test
-   public void resolveShouldCallXTimesMultiplicationMethod(
-           String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
-      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
-      calculator.resolve(from);
- //     verify(mockedOperation, times(times)).multiplication(anyDouble(),anyDouble());
-   }
-
-   private Object[] resolveMultiplicationData() {
-      return $(
-              $("", new String[] {""}, 0),
-              $("2", new String[] {"2"}, 0),
-              $("2x5", new String[] {"2", "x", "5"}, 1),
-              $("2x5+7x3", new String[] {"2", "x", "5", "+", "7", "x", "3"}, 2)
-      );
-   }
-
-   @Parameters(method = "resolveDivisionData")
-   @Test
-   public void resolveShouldCallXTimesDivisionMethod(
-           String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
-      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
-      calculator.resolve(from);
- //     verify(mockedOperation, times(times)).division(anyDouble(),anyDouble());
-   }
-
-   private Object[] resolveDivisionData() {
-      return $(
-              $("", new String[] {""}, 0),
-              $("2", new String[] {"2"}, 0),
-              $("2/5", new String[] {"2", "/", "5"}, 1),
-              $("2/5+7/3", new String[] {"2", "/", "5", "+", "7", "/", "3"}, 2)
-      );
-   }
-
-   @Parameters(method = "resolveFactorialData")
-   @Test
-   public void resolveShouldCallXTimesFactorialMethod(
-           String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
-      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
-      calculator.resolve(from);
-  //    verify(mockedOperation, times(times)).factorial(anyDouble());
-   }
-
-   private Object[] resolveFactorialData() {
-      return $(
-              $("", new String[] {""}, 0),
-              $("2", new String[] {"2"}, 0),
-              $("2f5", new String[] {"2", "f", "5"}, 1),
-              $("2f5+7f3", new String[] {"2", "f", "5", "+", "7", "f", "3"}, 2)
-      );
-   }
-
-   @Parameters(method = "resolveSquareRootData")
-   @Test
-   public void resolveShouldCallXTimesSquareRootMethod(
-           String from, String[] tokens, int times) {
-      MathCalculator calculator = new MathCalculator(mockedExpression, mockedResolver);
-      when(mockedExpression.tokenize(from)).thenReturn(Arrays.asList(tokens));
-      calculator.resolve(from);
- //     verify(mockedOperation, times(times)).squareRoot(anyDouble());
-   }
-
-   private Object[] resolveSquareRootData() {
-      return $(
-              $("", new String[] {""}, 0),
-              $("2", new String[] {"2"}, 0),
-              $("2r5", new String[] {"2", "r", "5"}, 1),
-              $("2r5+7r3", new String[] {"2", "r", "5", "+", "7", "r", "3"}, 2)
-      );
-   }
-
    @Test(expected = ExpressionException.class)
    public void resolveShouldThrowWhenTokenizeThrows() {
       when(mockedExpression.tokenize(anyString())).thenThrow(ExpressionException.class);
-      calculator.resolve("Invalid String");
+      calculator.addSymbol("", "Invalid String");
    }
 }

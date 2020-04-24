@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.frikiplanet.calculator_book.domain.MathSymbols.FACTORIAL;
+import static com.frikiplanet.calculator_book.domain.MathSymbols.FACTORIAL_SCREEN;
+import static com.frikiplanet.calculator_book.domain.MathSymbols.SQUARE_ROOT;
+import static com.frikiplanet.calculator_book.domain.MathSymbols.SQUARE_ROOT_SCREEN;
+
 /**
  * Manage the MathCalculator expression input and output
  */
 public class MathExpression implements Expression {
-
-   private static final String SQUARE_ROOT = "r";
-   private static final String FACTORIAL = "f";
-   private static final String SQUARE_ROOT_SCREEN = "sqrt";
-   private static final String FACTORIAL_SCREEN = "fact";
 
    @Override
    public String read(@NonNull String expression) {
@@ -25,6 +25,11 @@ public class MathExpression implements Expression {
 
    @Override
    public String write(@NonNull String expression) {
+      if (expression.startsWith(MathSymbols.PARENTHESIS_START.concat(SQUARE_ROOT)) ||
+              expression.startsWith(MathSymbols.PARENTHESIS_START.concat(FACTORIAL))) {
+         expression = expression.substring(1);
+      }
+
       return expression.replaceAll("(?<=[-fr+x/^)])|(?=[-fr+x/^(])", "$0 ")
               .replace(SQUARE_ROOT, SQUARE_ROOT_SCREEN)
               .replace(FACTORIAL, FACTORIAL_SCREEN);
@@ -32,6 +37,6 @@ public class MathExpression implements Expression {
 
    @Override
    public List<String> tokenize(@NonNull String expression) {
-      return new ArrayList<>(Arrays.asList(expression.split("(?=[+x/^rf-])|(?<=[+x/^rf])")));
+      return new ArrayList<>(Arrays.asList(expression.split("(?=[+x/^rf-])|(?<=[-+x/^rf])")));
    }
 }

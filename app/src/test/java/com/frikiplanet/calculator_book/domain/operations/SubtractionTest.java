@@ -19,7 +19,7 @@ public class SubtractionTest {
     private Operation operation;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         operation = new Subtraction();
     }
 
