@@ -49,16 +49,16 @@ public class MathResolver implements Resolver {
     private Pair<Double, Double> extractOperands(Operation operator, int operatorOrder, List<String> symbols) {
         Pair<Double, Double> operands = new Pair<>(operator.getIdentityElement(), operator.getIdentityElement());
 
-        if (operatorOrder + 1 < symbols.size()) {
-            if (isNumeric(symbols.get(operatorOrder + 1))) {
-                operands.right = Double.parseDouble(symbols.get(operatorOrder + 1));
-
-            } else if (operatorOrder + 2 < symbols.size()) {
+        if (hasRightOperand(operatorOrder, symbols.size())) {
+            if (!isNumeric(symbols.get(operatorOrder + 1)) && operatorOrder + 2 < symbols.size()) {
                 operands.right = Double.parseDouble(symbols.get(operatorOrder + 2)) * -1;
+
+            } else {
+                operands.right = Double.parseDouble(symbols.get(operatorOrder + 1));
             }
         }
 
-        if (operator.isBinaryOperation() && operatorOrder - 1 >= 0) {
+        if (hasLeftOperand(operatorOrder) && operator.isBinaryOperation()) {
             operands.left = Double.parseDouble(symbols.get(operatorOrder - 1));
         }
 
@@ -68,7 +68,7 @@ public class MathResolver implements Resolver {
     private void replaceOperands(Operation operator, String result, int operatorOrder, List<String> symbols) {
         symbols.set(operatorOrder, result);
 
-        if (operatorOrder + 1 < symbols.size()) {
+        if (hasRightOperand(operatorOrder, symbols.size())) {
             if (!isNumeric(symbols.get(operatorOrder + 1)) && operatorOrder + 2 < symbols.size()) {
                 symbols.remove(operatorOrder + 2);
             }
@@ -76,8 +76,16 @@ public class MathResolver implements Resolver {
             symbols.remove(operatorOrder + 1);
         }
 
-        if (operator.isBinaryOperation() && operatorOrder -1 >= 0) {
+        if (hasLeftOperand(operatorOrder) && operator.isBinaryOperation()) {
             symbols.remove(operatorOrder - 1);
         }
+    }
+
+    private boolean hasRightOperand(int operatorPosition, int size) {
+        return operatorPosition + 1 < size;
+    }
+
+    private boolean hasLeftOperand(int operatorPosition) {
+        return operatorPosition -1 >= 0;
     }
 }

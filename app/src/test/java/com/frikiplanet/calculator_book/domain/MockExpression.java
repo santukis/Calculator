@@ -21,4 +21,9 @@ public class MockExpression implements Expression {
    public List<String> tokenize(@NonNull String expression) {
       return new ArrayList<>();
    }
+
+   @Override
+   public String normalize(@NonNull String expression) {
+      return null;
+   }
 }

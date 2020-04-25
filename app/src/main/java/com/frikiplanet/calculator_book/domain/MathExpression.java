@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.frikiplanet.calculator_book.domain.MathSymbols.FACTORIAL;
 import static com.frikiplanet.calculator_book.domain.MathSymbols.FACTORIAL_SCREEN;
@@ -33,6 +35,21 @@ public class MathExpression implements Expression {
       return expression.replaceAll("(?<=[-fr+x/^)])|(?=[-fr+x/^(])", "$0 ")
               .replace(SQUARE_ROOT, SQUARE_ROOT_SCREEN)
               .replace(FACTORIAL, FACTORIAL_SCREEN);
+   }
+
+   @Override
+   public String normalize(@NonNull String expression) {
+      StringBuilder normalizedExpression = new StringBuilder(expression);
+      Pattern pattern = Pattern.compile("(?=[\\d|\\)][\\(|r|f])|(?=[\\)]\\d)");
+      Matcher matcher = pattern.matcher(expression);
+
+      int offset = 0;
+
+      while (matcher.find()) {
+         normalizedExpression.insert(matcher.start() + ++offset, MathSymbols.MULTIPLICATION);
+      }
+
+      return normalizedExpression.toString();
    }
 
    @Override

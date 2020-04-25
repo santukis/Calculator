@@ -10,5 +10,7 @@ public interface Expression {
 
    String write(@NonNull String expression);
 
+   String normalize(@NonNull String expression);
+
    List<String> tokenize(@NonNull String expression);
 }

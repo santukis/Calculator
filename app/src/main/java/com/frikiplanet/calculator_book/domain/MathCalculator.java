@@ -61,7 +61,7 @@ public class MathCalculator implements Calculator {
 
     @Override
     public String calculate(@NonNull String from) throws OperationException, ExpressionException {
-        from = expression.read(from);
+        from = expression.normalize(expression.read(from));
 
         while (containsParenthesis(from)) {
             String parenthesis = getParenthesisExpression(from);
@@ -110,44 +110,9 @@ public class MathCalculator implements Calculator {
 
     @VisibleForTesting
     String replaceParenthesis(String from, String with) {
-        with = addOperators(from, with);
         return new StringBuilder(from)
                 .replace(getParenthesisStartIndex(from), getParenthesisEndIndex(from), with)
                 .toString();
-    }
-
-    private String addOperators(String expression, String to) {
-        to = addOperatorBeforeParenthesis(expression, to);
-        to = addOperatorAfterParenthesis(expression, to);
-        return to;
-    }
-
-    private String addOperatorBeforeParenthesis(String from, String to) {
-        try {
-            String previousCharacter = String.valueOf(from.charAt(getParenthesisStartIndex(from) - 1));
-
-            if (!isAnOperator(previousCharacter) && !previousCharacter.equals(MathSymbols.PARENTHESIS_START))
-                return MathSymbols.MULTIPLICATION.concat(to);
-
-        } catch (IndexOutOfBoundsException exception) {
-            return to;
-        }
-
-        return to;
-    }
-
-    private String addOperatorAfterParenthesis(String from, String to) {
-        try {
-            String nextCharacter = String.valueOf(from.charAt(getParenthesisEndIndex(from)));
-
-            if (!isAnOperator(nextCharacter) && !nextCharacter.equals(MathSymbols.PARENTHESIS_END))
-                return to.concat(MathSymbols.MULTIPLICATION);
-
-        } catch (IndexOutOfBoundsException exception) {
-            return to;
-        }
-
-        return to;
     }
 
     @VisibleForTesting
@@ -171,21 +136,12 @@ public class MathCalculator implements Calculator {
         return !symbol.matches("([0-9]|[-+x/]|[.]|[()^fr])");
     }
 
-    private boolean isAnOperator(String symbol) {
-        return isABinaryOperator(symbol) || isAnUnaryOperator(symbol);
-    }
-
     private boolean isABinaryOperator(String symbol) {
         return symbol.equals(MathSymbols.ADDITION) ||
                 symbol.equals(MathSymbols.SUBTRACTION) ||
                 symbol.equals(MathSymbols.MULTIPLICATION) ||
                 symbol.equals(MathSymbols.DIVISION) ||
                 symbol.equals(MathSymbols.EXPONENTIATION);
-    }
-
-    private boolean isAnUnaryOperator(String symbol) {
-        return symbol.equals(MathSymbols.SQUARE_ROOT) ||
-                symbol.equals(MathSymbols.FACTORIAL);
     }
 
     private boolean endsWithBinaryOperator(String expression) {

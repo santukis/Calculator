@@ -73,8 +73,7 @@ public class MathExpressionTest {
 
    @Parameters(method = "tokenizeExpressionData")
    @Test
-   public void tokenizeShouldReturnExpectedExpression(
-           String original, Object[] expected) {
+   public void tokenizeShouldReturnExpectedExpression(String original, Object[] expected) {
       List<String> result = expression.tokenize(original);
       assertThat(result).isEqualTo(Arrays.asList(expected));
    }
@@ -100,5 +99,52 @@ public class MathExpressionTest {
               new Object[]{"3.4f5", new Object[]{"3.4", "f", "5"}},
               new Object[] {"-2-1", new Object[]{"-", "2", "-", "1"}}
       };
+   }
+
+   @Parameters(method = "normalizeExpressionData")
+   @Test
+   public void normalizeShouldReturnExpectedExpression(String original, String expected) {
+       String result = expression.normalize(original);
+       assertThat(result).isEqualTo(expected);
+   }
+
+   private Object[] normalizeExpressionData() {
+       return new Object[] {
+               new Object[] {"", ""},
+               new Object[] {"1", "1"},
+               new Object[] {"2.3", "2.3"},
+               new Object[] {"+", "+"},
+               new Object[] {"x", "x"},
+               new Object[] {"/", "/"},
+               new Object[] {"^", "^"},
+               new Object[] {"f", "f"},
+               new Object[] {"r", "r"},
+               new Object[] {"4(", "4x("},
+               new Object[] {"4x(", "4x("},
+               new Object[] {"4-(", "4-("},
+               new Object[] {"4+(", "4+("},
+               new Object[] {"4/(", "4/("},
+               new Object[] {"4^(", "4^("},
+               new Object[] {"r(", "r("},
+               new Object[] {"f(", "f("},
+               new Object[] {"4r", "4xr"},
+               new Object[] {"4f", "4xf"},
+               new Object[] {"4r(", "4xr("},
+               new Object[] {"4f(", "4xf("},
+               new Object[] {"4f(3+5(", "4xf(3+5x("},
+               new Object[] {"3.3r(3x5(4.5r(", "3.3xr(3x5x(4.5xr("},
+               new Object[] {")", ")"},
+               new Object[] {")+", ")+"},
+               new Object[] {")-", ")-"},
+               new Object[] {")x", ")x"},
+               new Object[] {")/", ")/"},
+               new Object[] {")^", ")^"},
+               new Object[] {")4", ")x4"},
+               new Object[] {")r", ")xr"},
+               new Object[] {")f", ")xf"},
+               new Object[] {")4f", ")x4xf"},
+               new Object[] {")4r", ")x4xr"},
+               new Object[] {"(4+3)(r45f2)4r(7.2+45)", "(4+3)x(r45xf2)x4xr(7.2+45)"},
+       };
    }
 }
