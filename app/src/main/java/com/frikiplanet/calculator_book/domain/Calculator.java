@@ -9,5 +9,4 @@ public interface Calculator {
    String removeSymbol(@NonNull String from);
 
    String calculate(@NonNull String from);
-
 }

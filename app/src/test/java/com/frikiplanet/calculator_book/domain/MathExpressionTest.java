@@ -55,8 +55,8 @@ public class MathExpressionTest {
       return $(
               $("f", " fact "),
               $("r", " sqrt "),
-              $("(r", " sqrt "),
-              $("(f", " fact "),
+              $("r(", " sqrt ("),
+              $("f(", " fact ("),
               $("3.2", "3.2"),
               $("3+2.5", "3 + 2.5"),
               $("3-2.5", "3 - 2.5"),

@@ -27,11 +27,6 @@ public class MathExpression implements Expression {
 
    @Override
    public String write(@NonNull String expression) {
-      if (expression.startsWith(MathSymbols.PARENTHESIS_START.concat(SQUARE_ROOT)) ||
-              expression.startsWith(MathSymbols.PARENTHESIS_START.concat(FACTORIAL))) {
-         expression = expression.substring(1);
-      }
-
       return expression.replaceAll("(?<=[-fr+x/^)])|(?=[-fr+x/^(])", "$0 ")
               .replace(SQUARE_ROOT, SQUARE_ROOT_SCREEN)
               .replace(FACTORIAL, FACTORIAL_SCREEN);
