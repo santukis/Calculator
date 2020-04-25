@@ -14,24 +14,21 @@
         android:orientation="vertical"
         android:weightSum="2">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/operations"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.75">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/operations"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="15dp"
-                android:textColor="@color/colorAccent"
-                android:textSize="@dimen/text_size"
-                app:autoSizeMaxTextSize="@dimen/text_size"
-                app:autoSizeMinTextSize="@dimen/min_text_size"
-                android:layout_gravity="center"/>
-
-        </androidx.core.widget.NestedScrollView>
+            android:layout_weight="0.75"
+            android:gravity="center"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_size"
+            app:autoSizeStepGranularity="1dp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMaxTextSize="@dimen/text_size"
+            app:autoSizeMinTextSize="@dimen/min_text_size"
+            android:layout_gravity="center"/>
 
         <TextSwitcher
             android:id="@+id/result"
