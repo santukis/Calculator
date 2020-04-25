@@ -89,7 +89,9 @@ public class MathCalculatorActivity extends AppCompatActivity implements
       });
 
       equalButton.setOnClickListener(v -> {
-         resultText.setText(((TextView) resultText.getCurrentView()).getText());
+         String result = ((TextView) resultText.getCurrentView()).getText().toString();
+         resultText.setText(result);
+         operationsText.setText(getString(R.string.wrong_operation).equals(result) ? "" : result);
          ((TextView) resultText.getCurrentView()).setTextColor(ContextCompat.getColor(MathCalculatorActivity.this, R.color.colorAccent));
       });
 
