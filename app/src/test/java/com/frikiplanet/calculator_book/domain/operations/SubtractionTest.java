@@ -25,7 +25,7 @@ public class SubtractionTest {
 
     @Parameters(method = "getValidSubtractionInput")
     @Test
-    public void subtractionShouldReturnExpectedValueWhenOperandsAreReal(
+    public void calculateShouldReturnExpectedValueWhenOperandsAreReal(
             double operand1, double operand2, double expectedValue) {
         double result = operation.calculate(new Pair<>(operand1, operand2));
 
@@ -44,7 +44,7 @@ public class SubtractionTest {
 
     @Parameters(method = "getInvalidInput")
     @Test(expected = OperationException.class)
-    public void subtractionShouldThrowsWhenOperandsAreInvalid(double operand1, double operand2) {
+    public void calculateShouldThrowsWhenOperandsAreInvalid(double operand1, double operand2) {
         operation.calculate(new Pair<>(operand1, operand2));
     }
 
@@ -60,7 +60,7 @@ public class SubtractionTest {
 
     @Parameters(method = "getNullInput")
     @Test(expected = OperationException.class)
-    public void subtractionShouldThrowsWhenValuesAreNull(Double operand1, Double operand2) {
+    public void calculateShouldThrowsWhenValuesAreNull(Double operand1, Double operand2) {
         operation.calculate(new Pair<>(operand1, operand2));
     }
 

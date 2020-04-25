@@ -22,9 +22,22 @@ public class AdditionTest {
         operation = new Addition();
     }
 
+    @Test
+    public void calculateShouldReturnTenWhenOperandsAreThreeAndSeven() {
+        //ARRANGE
+        Addition operation = new Addition();
+        double expectedValue = 10;
+        double result = 0;
+
+        //ACT
+        result = operation.calculate(new Pair<>(3d, 7d));
+
+        assertEquals(String.format("Result %1s must be equals to %2s", result, expectedValue), expectedValue, result, 0.0);
+    }
+
     @Parameters(method = "getValidAdditionInput")
     @Test
-    public void additionShouldReturnExpectedValueWhenOperandsAreReal(
+    public void calculateShouldReturnExpectedValueWhenOperandsAreReal(
             double operand1, double operand2, double expectedValue) {
         //ACT OR WHEN
         double result = operation.calculate(new Pair<>(operand1, operand2));
@@ -47,7 +60,7 @@ public class AdditionTest {
 
     @Parameters(method = "getInvalidInput")
     @Test(expected = OperationException.class)
-    public void additionShouldThrowsWhenValuesAreInvalid(Double operand1, Double operand2) {
+    public void calculateShouldThrowsWhenValuesAreInvalid(Double operand1, Double operand2) {
         operation.calculate(new Pair<>(operand1, operand2));
     }
 
@@ -63,7 +76,7 @@ public class AdditionTest {
 
     @Parameters(method = "getNullInput")
     @Test(expected = OperationException.class)
-    public void additionShouldThrowsWhenValuesAreNull(Double operand1, Double operand2) {
+    public void calculateShouldThrowsWhenValuesAreNull(Double operand1, Double operand2) {
         operation.calculate(new Pair<>(operand1, operand2));
     }
 

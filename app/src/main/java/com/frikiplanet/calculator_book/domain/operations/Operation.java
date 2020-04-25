@@ -15,7 +15,7 @@ public abstract class Operation implements Comparable<Operation> {
 
     public abstract boolean isBinaryOperation();
 
-    public abstract Double calculate(Pair<Double, Double> operands);
+    public abstract Double calculate(Pair<Double, Double> operands) throws OperationException;
 
     protected void throwsIfValuesAreInvalid(Pair<Double, Double> operands) throws OperationException {
         if (operands == null || isValueInvalid(operands.left) || isValueInvalid(operands.right)) {

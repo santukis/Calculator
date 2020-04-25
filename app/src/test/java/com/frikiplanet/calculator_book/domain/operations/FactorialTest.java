@@ -26,7 +26,7 @@ public class FactorialTest {
 
     @Parameters(method = "getValidFactorialInput")
     @Test
-    public void factorialShouldReturnExpectedValueWhenOperandIsNatural(
+    public void calculateShouldReturnExpectedValueWhenOperandIsNatural(
             double operand, double expectedValue) {
 
         double result = operation.calculate(new Pair<>(1d, operand));
@@ -49,7 +49,7 @@ public class FactorialTest {
 
     @Parameters(method = "getInvalidFactorialInput")
     @Test
-    public void factorialShouldThrowsWhenOperandIsInvalid(double operand) {
+    public void calculateShouldThrowsWhenOperandIsInvalid(double operand) {
 
         try {
             operation.calculate(new Pair<>(1d, operand));
@@ -76,7 +76,7 @@ public class FactorialTest {
     }
 
     @Test(expected = OperationException.class)
-    public void factorialShouldThrowsWhenValuesAreNull() {
+    public void calculateShouldThrowsWhenValuesAreNull() {
         operation.calculate(null);
     }
 }

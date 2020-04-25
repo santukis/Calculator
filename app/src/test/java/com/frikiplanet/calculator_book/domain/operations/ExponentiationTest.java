@@ -25,7 +25,7 @@ public class ExponentiationTest {
 
     @Parameters(method = "getValidExponentiationInput")
     @Test
-    public void exponentiationShouldReturnExpectedValueWhenInputAreIntegers(
+    public void calculateShouldReturnExpectedValueWhenInputAreIntegers(
             double base, double exponent, double expectedValue) {
 
         double result = algoritm.calculate(new Pair<>(base, exponent));
@@ -48,7 +48,7 @@ public class ExponentiationTest {
 
     @Parameters(method = "getInvalidExponentiationInput")
     @Test(expected = OperationException.class)
-    public void exponentiationShouldThrowWhenOperandsAreInvalid(
+    public void calculateShouldThrowWhenOperandsAreInvalid(
             double base, double exponent) {
         algoritm.calculate(new Pair<>(base, exponent));
     }
@@ -70,7 +70,7 @@ public class ExponentiationTest {
 
     @Parameters(method = "getNullInput")
     @Test(expected = OperationException.class)
-    public void exponentiationShouldThrowsWhenValuesAreNull(Double base, Double exponent) {
+    public void calculateShouldThrowsWhenValuesAreNull(Double base, Double exponent) {
         algoritm.calculate(new Pair<>(base, exponent));
     }
 

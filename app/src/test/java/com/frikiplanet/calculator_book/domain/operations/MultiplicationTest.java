@@ -25,7 +25,7 @@ public class MultiplicationTest {
 
     @Parameters(method = "getValidMultiplicationInput")
     @Test
-    public void multiplicationShouldReturnExpectedValueWhenOperandsAndResultAreReal(
+    public void calculateShouldReturnExpectedValueWhenOperandsAndResultAreReal(
             double operand1, double operand2, double expectedValue) {
         double result = operation.calculate(new Pair<>(operand1, operand2));
 
@@ -44,7 +44,7 @@ public class MultiplicationTest {
 
     @Parameters(method = "getInvalidMultiplicationInput")
     @Test(expected = OperationException.class)
-    public void multiplicationShouldThrowsWhenOperandsOrResultAreInvalid(
+    public void calculateShouldThrowsWhenOperandsOrResultAreInvalid(
             double operand1, double operand2) {
         operation.calculate(new Pair<>(operand1, operand2));
     }
@@ -62,7 +62,7 @@ public class MultiplicationTest {
 
     @Parameters(method = "getNullInput")
     @Test(expected = OperationException.class)
-    public void multiplicationShouldThrowsWhenValuesAreNull(Double operand1, Double operand2) {
+    public void calculateShouldThrowsWhenValuesAreNull(Double operand1, Double operand2) {
         operation.calculate(new Pair<>(operand1, operand2));
     }
 

@@ -25,7 +25,7 @@ public class SquareRootTest {
 
     @Parameters(method = "getValidSquareRootInput")
     @Test
-    public void squareRootShouldReturnExpectedValueWhenInputIsReal(
+    public void calculateShouldReturnExpectedValueWhenInputIsReal(
             double radicand, double expectedValue) {
 
         double result = operation.calculate(new Pair<>(1d, radicand));
@@ -44,7 +44,7 @@ public class SquareRootTest {
 
     @Parameters(method = "getInvalidSquareRootInput")
     @Test(expected = OperationException.class)
-    public void squareRootShouldThrowWhenOperandIsInvalid(double radicand) {
+    public void calculateShouldThrowWhenOperandIsInvalid(double radicand) {
         operation.calculate(new Pair<>(1d, radicand));
     }
 
@@ -58,7 +58,7 @@ public class SquareRootTest {
     }
 
     @Test(expected = OperationException.class)
-    public void squareRootShouldThrowsWhenValuesAreNull() {
+    public void calculateShouldThrowsWhenValuesAreNull() {
         operation.calculate(null);
     }
 

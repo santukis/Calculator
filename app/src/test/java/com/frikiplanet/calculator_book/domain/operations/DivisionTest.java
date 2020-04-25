@@ -25,7 +25,7 @@ public class DivisionTest {
 
     @Parameters(method = "getValidDivisionInput")
     @Test
-    public void divisionShouldReturnExpectedValueWhenOperandsAreReal(
+    public void calculateShouldReturnExpectedValueWhenOperandsAreReal(
             double operand1, double operand2, double expectedValue) {
 
         double result = operation.calculate(new Pair<>(operand1, operand2));
@@ -44,7 +44,7 @@ public class DivisionTest {
 
     @Parameters(method = "getInvalidDivisionInput")
     @Test(expected = OperationException.class)
-    public void divisionShouldThrowWhenOperandsOrResultAreInvalid(
+    public void calculateShouldThrowWhenOperandsOrResultAreInvalid(
             Double operand1, Double operand2) {
 
         operation.calculate(new Pair<>(operand1, operand2));
@@ -62,7 +62,7 @@ public class DivisionTest {
 
     @Parameters(method = "getNullInput")
     @Test(expected = OperationException.class)
-    public void divisionShouldThrowsWhenValuesAreNull(Double operand1, Double operand2) {
+    public void calculateShouldThrowsWhenValuesAreNull(Double operand1, Double operand2) {
         operation.calculate(new Pair<>(operand1, operand2));
     }
 
