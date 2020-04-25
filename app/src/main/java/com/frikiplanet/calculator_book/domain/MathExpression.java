@@ -40,7 +40,7 @@ public class MathExpression implements Expression {
    @Override
    public String normalize(@NonNull String expression) {
       StringBuilder normalizedExpression = new StringBuilder(expression);
-      Pattern pattern = Pattern.compile("(?=[\\d|\\)][\\(|r|f])|(?=[\\)]\\d)");
+      Pattern pattern = Pattern.compile("(?=[\\d|\\)||\\.][\\(|r|f])|(?=[\\)][\\d|\\.])");
       Matcher matcher = pattern.matcher(expression);
 
       int offset = 0;
