@@ -10,7 +10,6 @@ public class MathResolver implements Resolver {
 
     @Override
     public Double resolve(List<String> symbols) {
-
         while (symbols.size() > 1) {
             Operation operator = new NoOperation();
             int operatorPosition = -1;
