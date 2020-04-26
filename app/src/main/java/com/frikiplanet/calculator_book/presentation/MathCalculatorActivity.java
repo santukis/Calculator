@@ -61,7 +61,7 @@ public class MathCalculatorActivity extends AppCompatActivity implements
               findViewById(R.id.bt2), findViewById(R.id.bt3), findViewById(R.id.bt4), findViewById(R.id.bt5), findViewById(R.id.bt6), findViewById(R.id.bt7),
               findViewById(R.id.bt8), findViewById(R.id.bt9), findViewById(R.id.bt_dot));
 
-      setPresenter(new CalculatorPresenter(this, new MathCalculator(new MathExpression(), new MathResolver())));
+      presenter = new CalculatorPresenter(this, new MathCalculator(new MathExpression(), new MathResolver()));
    }
 
    private void initializeViewListeners() {
@@ -156,11 +156,6 @@ public class MathCalculatorActivity extends AppCompatActivity implements
    @Override
    public void onAnimationRepeat(Animator animation) {
 
-   }
-
-   @Override
-   public void setPresenter(CalculatorPresenter presenter) {
-      this.presenter = presenter;
    }
 
    @Override
