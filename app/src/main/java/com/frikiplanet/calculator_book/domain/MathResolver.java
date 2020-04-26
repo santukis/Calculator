@@ -36,7 +36,14 @@ public class MathResolver implements Resolver {
         return isNumeric(symbols.get(0)) ? Double.parseDouble(symbols.get(0)) : 0;
     }
 
-    private boolean isNumeric(String symbol) { return symbol.matches("-?\\d+(\\.\\d+)?"); }
+    private boolean isNumeric(String symbol) {
+        try{
+            Double.parseDouble(symbol);
+            return true;
+        } catch (Exception exception) {
+            return false;
+        }
+    }
 
     private Pair<Double, Double> extractOperands(Operation operator, int operatorOrder, List<String> symbols) {
         Pair<Double, Double> operands = new Pair<>(operator.getIdentityElement(), operator.getIdentityElement());
