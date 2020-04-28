@@ -41,11 +41,7 @@ public class MathCalculatorActivityTest {
    @Parameters(method = "getValidOperandButtonData")
    @Test
    public void onClickButtonShouldAddTagValueToOperationsViews(int buttonId, String tagValue) {
-
-      //Click on Operand or Operator button
       clickOn(buttonId);
-
-      //Check if operations view is showing the button tag value
       assertDisplayed(R.id.operations, tagValue);
    }
 
