@@ -10,6 +10,8 @@ public class MathResolver implements Resolver {
 
     @Override
     public Double resolve(List<String> symbols) {
+        if (symbols.isEmpty()) return 0d;
+
         while (symbols.size() > 1) {
             Operation operator = new NoOperation();
             int operatorPosition = -1;
@@ -32,15 +34,24 @@ public class MathResolver implements Resolver {
             replaceOperands(operator, result.toString(), operatorPosition, symbols);
         }
 
-        return isNumeric(symbols.get(0)) ? Double.parseDouble(symbols.get(0)) : 0;
+        return isNumeric(symbols.get(0)) ? convertToNumber(symbols.get(0)) : 0;
     }
 
     private boolean isNumeric(String symbol) {
         try{
-            Double.parseDouble(symbol);
+            convertToNumber(symbol);
             return true;
-        } catch (Exception exception) {
+        } catch (OperationException exception) {
             return false;
+        }
+    }
+
+    private Double convertToNumber(String operand) {
+        try {
+            return Double.parseDouble(operand);
+
+        } catch (NumberFormatException | NullPointerException exception) {
+            throw new OperationException();
         }
     }
 
@@ -49,15 +60,15 @@ public class MathResolver implements Resolver {
 
         if (hasRightOperand(operatorOrder, symbols.size())) {
             if (!isNumeric(symbols.get(operatorOrder + 1)) && operatorOrder + 2 < symbols.size()) {
-                operands.right = Double.parseDouble(symbols.get(operatorOrder + 2)) * -1;
+                operands.right = convertToNumber(symbols.get(operatorOrder + 2)) * -1;
 
             } else {
-                operands.right = Double.parseDouble(symbols.get(operatorOrder + 1));
+                operands.right = convertToNumber(symbols.get(operatorOrder + 1));
             }
         }
 
         if (hasLeftOperand(operatorOrder) && operator.isBinaryOperation()) {
-            operands.left = Double.parseDouble(symbols.get(operatorOrder - 1));
+            operands.left = convertToNumber(symbols.get(operatorOrder - 1));
         }
 
         return operands;
