@@ -26,6 +26,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed;
+import static com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn;
+import static com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(JUnitParamsRunner.class)
@@ -40,12 +43,10 @@ public class MathCalculatorActivityTest {
    public void onClickButtonShouldAddTagValueToOperationsViews(int buttonId, String tagValue) {
 
       //Click on Operand or Operator button
-      onView(withId(buttonId))
-              .perform(click());
+      clickOn(buttonId);
 
       //Check if operations view is showing the button tag value
-      onView(withId(R.id.operations))
-              .check(matches(withText(tagValue)));
+      assertDisplayed(R.id.operations, tagValue);
    }
 
    private static Object[] getValidOperandButtonData() {
