@@ -23,7 +23,7 @@ public class MathExpression implements Expression {
    public String read(@NonNull String expression) {
       return expression.replace(SQUARE_ROOT_SCREEN, SQUARE_ROOT)
               .replace(FACTORIAL_SCREEN, FACTORIAL)
-              .replaceAll("\\s", "").trim();
+              .replaceAll("\\s", "");
    }
 
    @Override

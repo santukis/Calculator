@@ -34,7 +34,7 @@ public class CalculatorPresenterTest {
 
    @Test
    public void addSymbolShouldCallShowOperationsWhenInputIsValid() {
-      when(mockedCalculator.addSymbol(anyString(), anyString())).thenReturn("");
+      when(mockedCalculator.addSymbol(anyString(), anyString())).thenReturn("2");
 
       presenter.addSymbol(anyString(), anyString());
 

@@ -4,8 +4,8 @@ package com.frikiplanet.calculator_book.domain;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -17,7 +17,6 @@ import junitparams.Parameters;
 import static com.google.common.truth.Truth.assertThat;
 import static junitparams.JUnitParamsRunner.$;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -42,7 +41,7 @@ public class MathCalculatorTest {
 
    @Parameters(method = "addSymbolData")
    @Test
-   public void addSymbolShouldCallAddSymbol(String to, String symbol) {
+   public void addSymbolShouldCallAddSymbolInExpression(String to, String symbol) {
       MockExpression mockExpression = new MockExpression();
       calculator = new MathCalculator(mockExpression, null);
 
@@ -50,6 +49,17 @@ public class MathCalculatorTest {
 
       assertThat(mockExpression.added).isTrue();
       assertThat(mockExpression.replaced).isFalse();
+   }
+
+   @Parameters(method = "addSymbolData")
+   @Test
+   public void addSymbolShouldCallAddSymbol(String to, String symbol) {
+      when(mockedExpression.read(anyString())).thenReturn(anyString());
+
+      calculator.addSymbol(to, symbol);
+
+      verify(mockedExpression, times(1)).addSymbol(anyString(), anyString());
+      verify(mockedExpression, times(0)).replaceSymbol(anyString(),anyString());
    }
 
    private Object[] addSymbolData() {
@@ -81,6 +91,14 @@ public class MathCalculatorTest {
       String result = calculator.addSymbol(to, symbol);
 
       assertThat(result).isEqualTo(expected);
+   }
+
+   @Test @Parameters(method = "replaceSymbolData")
+   public void addSymbolShouldCallReplaceSymbolWithMockito(String to, String symbol, String expected) {
+      when(mockedExpression.read(to)).thenReturn(to);
+      calculator.addSymbol(to, symbol);
+      verify(mockedExpression, times(1)).replaceSymbol(to, symbol);
+      verify(mockedExpression, times(0)).addSymbol(to, symbol);
    }
 
    private Object[] replaceSymbolData() {
