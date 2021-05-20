@@ -15,18 +15,25 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(JUnitQuickcheck.class)
 public class MathResolverPropertyTest {
 
     @Property
-    public void tokenizeShouldReturnAtLeastOneElement(List<String> symbols) {
+    public void tokenizeShouldReturnAtLeastOneElementOrThrowOperationException(List<String> symbols) {
         MathResolver resolver = new MathResolver();
         try{
-            Double result = resolver.resolve(symbols);
+            resolver.resolve(symbols);
 
         } catch (OperationException exception) {
+            System.out.println(exception.getMessage());
+            assertTrue(exception.getMessage().contains("is not a real number"));
 
+        } catch (Exception exception) {
+            fail(exception.getMessage());
         }
     }
 }

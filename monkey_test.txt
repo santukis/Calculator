@@ -1,0 +1,1 @@
+adb shell monkey -p com.frikiplanet.calculator_book -v --pct-syskeys 0 --pct-appswitch 0 --pct-trackball 0 --pct-anyevent 0 10000

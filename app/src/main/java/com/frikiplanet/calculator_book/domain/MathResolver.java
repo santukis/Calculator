@@ -51,7 +51,7 @@ public class MathResolver implements Resolver {
             return Double.parseDouble(operand);
 
         } catch (NumberFormatException | NullPointerException exception) {
-            throw new OperationException();
+            throw new OperationException(String.format("operand %s is not a real number", operand));
         }
     }
 
