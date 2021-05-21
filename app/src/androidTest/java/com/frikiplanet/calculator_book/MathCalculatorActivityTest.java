@@ -3,16 +3,18 @@ package com.frikiplanet.calculator_book;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.lifecycle.Lifecycle;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
-import androidx.test.rule.ActivityTestRule;
 
 import com.frikiplanet.calculator_book.presentation.MathCalculatorActivity;
 
 import org.hamcrest.Matcher;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.function.Consumer;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -28,21 +30,20 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed;
 import static com.schibsted.spain.barista.interaction.BaristaClickInteractions.clickOn;
-import static com.schibsted.spain.barista.interaction.BaristaEditTextInteractions.writeTo;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(JUnitParamsRunner.class)
 public class MathCalculatorActivityTest {
 
-   @Rule
-   public ActivityTestRule<MathCalculatorActivity> activityRule =
-           new ActivityTestRule<>(MathCalculatorActivity.class);
-
    @Parameters(method = "getValidOperandButtonData")
    @Test
    public void onClickButtonShouldAddTagValueToOperationsViews(int buttonId, String tagValue) {
-      clickOn(buttonId);
-      assertDisplayed(R.id.operations, tagValue);
+      try(ActivityScenario<MathCalculatorActivity> scenario = ActivityScenario.launch(MathCalculatorActivity.class)) {
+         scenario.moveToState(Lifecycle.State.RESUMED);
+
+         clickOn(buttonId);
+         assertDisplayed(R.id.operations, tagValue);
+      }
    }
 
    private static Object[] getValidOperandButtonData() {
@@ -76,14 +77,16 @@ public class MathCalculatorActivityTest {
    public void onRemoveLastButtonClickShouldRemoveLastSymbolInOperationsView
            (String original, String result) {
 
-      onView(withId(R.id.operations))
-              .perform(setText(original));
+      launch(scenario -> {
+         onView(withId(R.id.operations))
+                 .perform(setText(original));
 
-      onView(withId(R.id.bt_remove_last))
-              .perform(click());
+         onView(withId(R.id.bt_remove_last))
+                 .perform(click());
 
-      onView(withId(R.id.operations))
-              .check(matches(withText(result)));
+         onView(withId(R.id.operations))
+                 .check(matches(withText(result)));
+      });
    }
 
    private static Object[] getRemoveLastButtonData() {
@@ -97,17 +100,18 @@ public class MathCalculatorActivityTest {
 
    @Parameters(method = "getClearButtonData")
    @Test
-   public void onClearButtonClickShouldClearOperationsViews
-           (String original) {
+   public void onClearButtonClickShouldClearOperationsViews(String original) {
 
-      onView(withId(R.id.operations))
-              .perform(setText(original));
+      launch(scenario -> {
+         onView(withId(R.id.operations))
+                 .perform(setText(original));
 
-      onView(withId(R.id.bt_clear))
-              .perform(click());
+         onView(withId(R.id.bt_clear))
+                 .perform(click());
 
-      onView(withId(R.id.operations))
-              .check(matches(withText("")));
+         onView(withId(R.id.operations))
+                 .check(matches(withText("")));
+      });
    }
 
    private static Object[] getClearButtonData() {
@@ -123,11 +127,13 @@ public class MathCalculatorActivityTest {
    @Test
    public void onOperationsViewChangedShouldUpdateResultsView(String operations, String result) {
 
-      onView(withId(R.id.operations))
-              .perform(setText(operations));
+      launch(scenario -> {
+         onView(withId(R.id.operations))
+                 .perform(setText(operations));
 
-      onView(allOf(withParent(withId(R.id.result)), isCompletelyDisplayed()))
-              .check(matches(withText(result)));
+         onView(allOf(withParent(withId(R.id.result)), isCompletelyDisplayed()))
+                 .check(matches(withText(result)));
+      });
    }
 
    private static Object[] getValidOperationsData() {
@@ -138,6 +144,13 @@ public class MathCalculatorActivityTest {
               new Object[]{"5/2", "2.5"},
               new Object[] {"3+(4x3)", "15"}
       };
+   }
+
+   private void launch(Consumer<ActivityScenario<MathCalculatorActivity>> testBlock) {
+      try(ActivityScenario<MathCalculatorActivity> scenario = ActivityScenario.launch(MathCalculatorActivity.class)) {
+         scenario.moveToState(Lifecycle.State.RESUMED);
+         testBlock.accept(scenario);
+      }
    }
 
    public static ViewAction setText(final String value) {
