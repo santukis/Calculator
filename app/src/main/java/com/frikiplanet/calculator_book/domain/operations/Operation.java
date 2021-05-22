@@ -3,9 +3,10 @@ package com.frikiplanet.calculator_book.domain.operations;
 import com.frikiplanet.calculator_book.domain.OperationException;
 import com.frikiplanet.calculator_book.domain.Pair;
 
-public abstract class Operation implements Comparable<Operation> {
+public abstract class Operation {
 
-    private int precedence;
+    private final int precedence;
+    private int position = -1;
 
     public Operation(int precedence) {
         this.precedence = precedence;
@@ -27,8 +28,23 @@ public abstract class Operation implements Comparable<Operation> {
         return value == null || value == Double.MAX_VALUE || Double.isInfinite(value) || Double.isNaN(value);
     }
 
-    @Override
-    public int compareTo(Operation other) {
-        return Integer.compare(precedence, other.precedence);
+    public void setCurrentPosition(int position) {
+        this.position = position;
+    }
+
+    public int getCurrentPosition() {
+        return position;
+    }
+
+    public int getRightPosition() {
+        return getCurrentPosition() + 1;
+    }
+
+    public int getLeftPosition() {
+        return getCurrentPosition() - 1;
+    }
+
+    public boolean hasHigherPrecedenceThan(Operation otherOperation) {
+        return precedence > otherOperation.precedence;
     }
 }
