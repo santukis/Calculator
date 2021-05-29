@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class MathCalculatorTest {
 
    @Before
    public void setUp() {
-      MockitoAnnotations.initMocks(this);
+      MockitoAnnotations.openMocks(this);
       Resolver resolver = new MathResolver();
       calculator = new MathCalculator(mockedExpression, resolver);
    }
@@ -54,12 +53,12 @@ public class MathCalculatorTest {
    @Parameters(method = "addSymbolData")
    @Test
    public void addSymbolShouldCallAddSymbol(String to, String symbol) {
-      when(mockedExpression.read(anyString())).thenReturn(anyString());
+      when(mockedExpression.read(anyString())).thenReturn(to);
 
       calculator.addSymbol(to, symbol);
 
-      verify(mockedExpression, times(1)).addSymbol(anyString(), anyString());
-      verify(mockedExpression, times(0)).replaceSymbol(anyString(),anyString());
+      verify(mockedExpression, times(1)).addSymbol(to, symbol);
+      verify(mockedExpression, times(0)).replaceSymbol(to, symbol);
    }
 
    private Object[] addSymbolData() {

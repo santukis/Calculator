@@ -5,9 +5,9 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.frikiplanet.calculator_book.presentation.MathCalculatorActivity;
 
@@ -31,7 +31,7 @@ import static org.hamcrest.Matchers.allOf;
 public class MathCalculatorEspressoRecordWithAssertions {
 
     @Rule
-    public ActivityTestRule<MathCalculatorActivity> mActivityTestRule = new ActivityTestRule<>(MathCalculatorActivity.class);
+    public ActivityScenarioRule<MathCalculatorActivity> mActivityTestRule = new ActivityScenarioRule<>(MathCalculatorActivity.class);
 
     @Test
     public void mathCalculatorEspressoRecordWithAssertions() {
