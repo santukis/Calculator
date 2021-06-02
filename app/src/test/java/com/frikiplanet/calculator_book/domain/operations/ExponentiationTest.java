@@ -3,6 +3,8 @@ package com.frikiplanet.calculator_book.domain.operations;
 import com.frikiplanet.calculator_book.domain.OperationException;
 import com.frikiplanet.calculator_book.domain.Pair;
 
+import org.hamcrest.MatcherAssert;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +14,7 @@ import junitparams.Parameters;
 
 import static com.google.common.truth.Truth.assertThat;
 import static junitparams.JUnitParamsRunner.$;
+import static org.hamcrest.Matchers.equalTo;
 
 @RunWith(JUnitParamsRunner.class)
 public class ExponentiationTest {
@@ -31,6 +34,7 @@ public class ExponentiationTest {
         double result = algoritm.calculate(new Pair<>(base, exponent));
 
         assertThat(result).isWithin(1e-10).of(expectedValue);
+        MatcherAssert.assertThat("Values are not Equal", result, equalTo(expectedValue));
     }
 
     private Object[] getValidExponentiationInput() {
